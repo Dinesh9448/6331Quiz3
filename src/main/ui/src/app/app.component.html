@@ -1,0 +1,52 @@
+<div class="page-header">
+	<hr>
+	<h1>EarthQuake Explorer </h1>
+</div>
+<div class="card-body">
+    <div class="container">
+      <div class="row justify-content-between">
+        <div class="col-4">
+          <select class="form-control"
+                  (change)="onSelectChartData($event.target.value)">
+            <option value="0">- By Magnitude -</option>
+			      <option value="1">- By LocationSource -</option>
+            <option value="2">- By Date -</option>
+          </select>
+        </div>
+		<div class="col-4">
+			<select class="form-control"
+					(change)="onSelectChartType($event.target.value)">
+			  <option value="0">- Bar Chart -</option>
+			  <option value="1">- Pie Chart -</option>
+			</select>
+		  </div>
+      </div>
+	</div>
+</div>
+
+<div class="card-body"
+       *ngIf="chartType == 0">
+<ngx-charts-bar-vertical
+    [view]="[1500,600]"
+    [results]="chartData"
+    [xAxisLabel]="xAxisLabel"
+    [legendTitle]="legendTitle"
+    [yAxisLabel]="yAxisLabel"
+    [legend]="true"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxis]="true"
+    [yAxis]="true"
+    [gradient]="true">
+</ngx-charts-bar-vertical>
+</div>
+<div class="card-body"
+       *ngIf="chartType == 1">
+<ngx-charts-pie-chart
+  [results]="chartData"
+  [legend]="true"
+  [legendTitle]="legendTitle"
+  [view]="[1500,600]"
+  [labels]="true" >
+</ngx-charts-pie-chart>
+</div>

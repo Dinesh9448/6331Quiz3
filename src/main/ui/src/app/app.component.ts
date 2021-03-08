@@ -1,0 +1,86 @@
+import {HttpClient} from '@angular/common/http';
+import {Component, ViewChild, AfterViewInit} from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import { Page } from 'ngx-pagination/dist/pagination-controls.directive';
+import {merge, Observable, of as observableOf} from 'rxjs';
+import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent  {
+  chartData: any = [];
+  xAxisLabel: string = '';
+  yAxisLabel: string = '';
+  legendTitle: string = '';
+  _httpClient: HttpClient;
+
+  ngAfterViewInit() {
+    this.getCountByMag().subscribe(data => {
+      this.chartData = data;
+      this.xAxisLabel = 'Magnitude';
+        this.yAxisLabel = 'no of EarthQuakes';
+        this.legendTitle = 'By Magnitude Chart';
+  });
+  }
+
+
+  constructor(httpClient: HttpClient) {
+    this._httpClient = httpClient;
+  }
+
+  getCountByMag(){
+    const requestUrl = 'earthquake/countByMag';
+    return this._httpClient.get(requestUrl);
+  }
+  getCountByLocation(){
+    const requestUrl = 'earthquake/countByLocationSource';
+    return this._httpClient.get(requestUrl);
+  }
+  getCountByTime(){
+    const requestUrl = 'earthquake/countByTime';
+    return this._httpClient.get(requestUrl);
+  }
+  onSelectChartData(filterId: number){
+    if(0==filterId){
+      this.getCountByMag().subscribe(data => {
+        this.chartData = data;
+        this.xAxisLabel = 'Magnitude';
+        this.yAxisLabel = 'no of EarthQuakes';
+        this.legendTitle = 'By Magnitude Chart';
+      });
+    }else if(1==filterId){
+      this.getCountByLocation().subscribe(data => {
+        this.chartData = data;
+        this.xAxisLabel = 'Location Source';
+        this.yAxisLabel = 'no of EarthQuakes';
+        this.legendTitle = 'By Location Source Chart';
+      });
+    }else if(2==filterId){
+      this.getCountByTime().subscribe(data => {
+        this.chartData = data;
+        this.xAxisLabel = 'Location Source';
+        this.yAxisLabel = 'no of EarthQuakes';
+        this.legendTitle = 'By Location Source Chart';
+      });
+    }
+  }
+  onSelectChartType(filterId: number){
+    this.chartType = filterId;
+  }
+  chartType: number=0
+
+}
+
+export interface ChartData{
+  name: string;
+  value: number;
+}
+
+export interface ChartArray{
+  chartArray: ChartData[];
+}
