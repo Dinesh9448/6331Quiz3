@@ -18,14 +18,24 @@ export class AppComponent  {
   yAxisLabel: string = '';
   legendTitle: string = '';
   _httpClient: HttpClient;
+  filterId: number = 0;
 
   ngAfterViewInit() {
-    this.getCountByMag().subscribe(data => {
+
+  }
+
+  onSelected(filterId: number): void {
+    console.log(`not yet implemented` + filterId);
+    this.filterId = filterId;
+  }
+  byYearAndState(year: string, statePO: string, times: number): void {
+    this._httpClient.get(`/president-elect/findByYearEqualsAndStatePoEquals?year=${year}&statePo=${statePO}`).subscribe(data => {
       this.chartData = data;
       this.xAxisLabel = 'Magnitude';
-        this.yAxisLabel = 'no of EarthQuakes';
-        this.legendTitle = 'By Magnitude Chart';
-  });
+      this.yAxisLabel = 'no of EarthQuakes';
+      this.legendTitle = 'By Magnitude Chart';
+    });
+
   }
 
 
