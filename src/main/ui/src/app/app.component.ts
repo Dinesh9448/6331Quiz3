@@ -28,15 +28,23 @@ export class AppComponent  {
     console.log(`not yet implemented` + filterId);
     this.filterId = filterId;
   }
-  byYearAndState(year: string, statePO: string, times: number): void {
+  byYearAndState(year: string, statePO: string): void {
     this._httpClient.get(`/president-elect/findByYearEqualsAndStatePoEquals?year=${year}&statePo=${statePO}`).subscribe(data => {
       this.chartData = data;
-      this.xAxisLabel = 'Magnitude';
-      this.yAxisLabel = 'no of EarthQuakes';
-      this.legendTitle = 'By Magnitude Chart';
+      this.xAxisLabel = 'Candidate`';
+      this.yAxisLabel = 'Candidate Votes';
+      this.legendTitle = 'By Candidate Votes Chart';
     });
 
   }
+  findByYearBetweenAndStatePoEquals(startYear: string, endYear: string, statePO: string): void{
+    this._httpClient.get(`/president-elect/findByYearBetweenAndStatePoEquals?startYear=${startYear}&endYear=${endYear}&statePo=${statePO}`).subscribe(data => {
+      this.chartData = data;
+      this.xAxisLabel = 'YEAR';
+      this.yAxisLabel = 'Total Votes';
+      this.legendTitle = 'By Total Votes Chart';
+    });
+}
 
 
   constructor(httpClient: HttpClient) {

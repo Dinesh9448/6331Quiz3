@@ -73,6 +73,24 @@ public class PresidentElectController {
                 .limit(6)
                 .collect(Collectors.toList()));
     }
+    @GetMapping("/findByYearBetweenAndStatePoEquals")
+    @Transactional
+    public @ResponseBody
+    ResponseEntity<?> findByYearBetweenAndStatePoEquals(@RequestParam("startYear") BigInteger startYear,
+            @RequestParam("endYear") BigInteger endYear, @RequestParam("statePo") String statePo,
+            @RequestParam(value = "times", defaultValue = "1", required = false) int times,
+            @RequestParam(value = "cacheInd", defaultValue = "false", required = false) boolean cacheInd){
+        ;
+        return ResponseEntity.ok(presidentElectRepository.findByYearBetweenAndStatePoEquals(startYear, endYear, statePo).stream().collect(Collectors.toMap(PresidentElect::getYear, PresidentElect::getTotalVotes, (v1, v2) -> v1)).entrySet().stream()
+                .map(entry -> {
+                    ChartData chartData = new ChartData();
+                    chartData.setName(entry.getKey().toString());
+                    chartData.setValue(entry.getValue().intValue());
+                    return chartData;
+                })
+                .limit(6)
+                .collect(Collectors.toList()));
+    }
 
     @GetMapping("/findByCandidateLike")
     @Transactional
