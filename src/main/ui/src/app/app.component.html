@@ -11,6 +11,7 @@
             <option value="0">- Select -</option>
             <option value="1">- ByYearAndStatePO -</option>
             <option value="2">- ByYearBetweenAndStatePO -</option>
+            <option value="3">- ByYearBetweenAndStatePOCandidates -</option>
           </select>
         </div>
 		<div class="col-4">
@@ -67,16 +68,20 @@
       <div class="md-form" *ngIf="filterId == 3">
         <div class="row">
           <div class="col-sm">
-            <input #name mdbInput type="text" id="form1" class="form-control">
-            <label for="form1" class="">Name </label>
+            <input #startVote mdbInput type="text" id="form1" class="form-control">
+            <label for="form1" class="">startYear </label>
           </div>
           <div class="col-sm">
-            <input #times mdbInput type="number" id="form1" class="form-control" [defaultValue]="1">
-            <label for="form1" class="">Query Execution Times</label>
+            <input #endVote mdbInput type="text" id="form1" class="form-control">
+            <label for="form1" class="">endYaer </label>
+          </div>
+          <div class="col-sm">
+            <input #startYear mdbInput type="text" id="form1" class="form-control">
+            <label for="form1" class="">StatePO </label>
           </div>
           <div class="col-sm">
             <button type="button" class="btn btn-primary"
-                    (click)="byCandidateName(name.value, times.value)">Search</button>
+                    (click)="findByYearBetweenAndStatePo(startVote.value, endVote.value, startYear.value)">Search</button>
           </div>
 
         </div>

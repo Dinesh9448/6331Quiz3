@@ -88,7 +88,24 @@ public class PresidentElectController {
                     chartData.setValue(entry.getValue().intValue());
                     return chartData;
                 })
-                .limit(6)
+                .collect(Collectors.toList()));
+    }
+
+    @GetMapping("/findByYearBetweenAndStatePo")
+    @Transactional
+    public @ResponseBody
+    ResponseEntity<?> findByYearBetweenAndStatePo(@RequestParam("startYear") BigInteger startYear,
+                                                        @RequestParam("endYear") BigInteger endYear, @RequestParam("statePo") String statePo,
+                                                        @RequestParam(value = "times", defaultValue = "1", required = false) int times,
+                                                        @RequestParam(value = "cacheInd", defaultValue = "false", required = false) boolean cacheInd){
+        ;
+        return ResponseEntity.ok(presidentElectRepository.findByYearBetweenAndStatePoEqualsOrderByYear(startYear, endYear, statePo).stream()
+                .map(entry -> {
+                    ChartData chartData = new ChartData();
+                    chartData.setName(entry.getCandidate() + "::" + entry.getYear());
+                    chartData.setValue(entry.getCandidateVotes().intValue());
+                    return chartData;
+                })
                 .collect(Collectors.toList()));
     }
 

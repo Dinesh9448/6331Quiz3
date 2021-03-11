@@ -45,7 +45,14 @@ export class AppComponent  {
       this.legendTitle = 'By Total Votes Chart';
     });
 }
-
+  findByYearBetweenAndStatePo(startYear: string, endYear: string, statePO: string): void{
+    this._httpClient.get(`/president-elect/findByYearBetweenAndStatePo?startYear=${startYear}&endYear=${endYear}&statePo=${statePO}`).subscribe(data => {
+      this.chartData = data;
+      this.xAxisLabel = 'YEAR';
+      this.yAxisLabel = 'Total Votes';
+      this.legendTitle = 'By Total Votes Chart';
+    });
+  }
 
   constructor(httpClient: HttpClient) {
     this._httpClient = httpClient;
