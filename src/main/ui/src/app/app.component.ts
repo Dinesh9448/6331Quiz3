@@ -53,6 +53,14 @@ export class AppComponent  {
       this.legendTitle = 'By Total Votes Chart';
     });
   }
+  findByCandidateVotesBetweenAndYearBetween(startYear: string, endYear: string, startVotes: string, endVotes: string): void{
+    this._httpClient.get(`/president-elect/findByCandidateVotesBetweenAndYearBetween?startYear=${startYear}&endYear=${endYear}&startVotes=${startVotes}&endVotes=${endVotes}`).subscribe(data => {
+      this.chartData = data;
+      this.xAxisLabel = 'YEAR';
+      this.yAxisLabel = 'Total Votes';
+      this.legendTitle = 'By Total Votes Chart';
+    });
+  }
 
   constructor(httpClient: HttpClient) {
     this._httpClient = httpClient;

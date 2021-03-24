@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.util.List;
 
 @Service
 public class PresidentElectService {
@@ -21,8 +22,8 @@ public class PresidentElectService {
     public Page<PresidentElect> findByYearEqualsAndStatePoEquals(Pageable pageable, BigInteger year, String statePo){
         return null;
     }
-    public Page<PresidentElect> findByCandidateVotesBetweenAndYearBetween(Pageable pageable, BigInteger startVotes, BigInteger endVotes, BigInteger startYear, BigInteger endYears){
-        return presidentElectRepository.findByCandidateVotesBetweenAndYearBetween(pageable, startVotes, endVotes, startYear, endYears);
+    public List<PresidentElect> findByCandidateVotesBetweenAndYearBetween(BigInteger startVotes, BigInteger endVotes, BigInteger startYear, BigInteger endYears){
+        return presidentElectRepository.findByCandidateVotesBetweenAndYearBetween( startVotes, endVotes, startYear, endYears);
     }
     public Page<PresidentElect> findByCandidateContaining(Pageable pageable, String name){
         return presidentElectRepository.findByCandidateContaining(pageable, name);
@@ -36,8 +37,8 @@ public class PresidentElectService {
         return null;
     }
     @Cacheable("PresidentElect_findByCandidateVotesBetweenAndYearBetween")
-    public Page<PresidentElect> findByCandidateVotesBetweenAndYearBetweenCacheable(Pageable pageable, BigInteger startVotes, BigInteger endVotes, BigInteger startYear, BigInteger endYears){
-        return presidentElectRepository.findByCandidateVotesBetweenAndYearBetween(pageable, startVotes, endVotes, startYear, endYears);
+    public List<PresidentElect> findByCandidateVotesBetweenAndYearBetweenCacheable(BigInteger startVotes, BigInteger endVotes, BigInteger startYear, BigInteger endYears){
+        return presidentElectRepository.findByCandidateVotesBetweenAndYearBetween(startVotes, endVotes, startYear, endYears);
     }
     @Cacheable("PresidentElect_findByCandidateContaining")
     public Page<PresidentElect> findByCandidateContainingCacheable(Pageable pageable, String name){

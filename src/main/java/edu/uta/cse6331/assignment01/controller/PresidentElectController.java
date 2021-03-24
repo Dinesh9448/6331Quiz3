@@ -129,19 +129,25 @@ public class PresidentElectController {
     @GetMapping("/findByCandidateVotesBetweenAndYearBetween")
     @Transactional
     public @ResponseBody
-    ResponseEntity<?> findByCandidateVotesBetweenAndYearBetween(@RequestParam("page") int page, @RequestParam("sort") String sort,
-                                                                @RequestParam("startVotes") BigInteger startVotes, @RequestParam("endVotes") BigInteger endVotes, @RequestParam("startYear") BigInteger startYear, @RequestParam("endYears") BigInteger endYears,
-                                                                @RequestParam(value = "times", defaultValue = "1", required = false) int times,
-                                                                @RequestParam(value = "cacheInd", defaultValue = "false", required = false) boolean cacheInd){
-        clearStatistics();
+    ResponseEntity<?> findByCandidateVotesBetweenAndYearBetween(@RequestParam("startVotes") BigInteger startVotes, @RequestParam("endVotes") BigInteger endVotes,
+                                                                @RequestParam("startYear") BigInteger startYear, @RequestParam("endYear") BigInteger endYears){
+        /*clearStatistics();
         Pageable pageable = getPageable(page, sort);
         Page<PresidentElect> earthQuakePage = null;
         for(int i=1; i <= times; i++) {
             earthQuakePage =
-                    cacheInd ? presidentElectService.findByCandidateVotesBetweenAndYearBetweenCacheable(pageable, startVotes, endVotes, startYear, endYears) :
-                            presidentElectService.findByCandidateVotesBetweenAndYearBetween(pageable, startVotes, endVotes, startYear, endYears) ;
-        };
-        return getResponseEntity(earthQuakePage);
+                    cacheInd ? presidentElectService.findByCandidateVotesBetweenAndYearBetweenCacheable( startVotes, endVotes, startYear, endYears) :
+                            presidentElectService.findByCandidateVotesBetweenAndYearBetween( startVotes, endVotes, startYear, endYears) ;
+        };*/
+        return ResponseEntity.ok(presidentElectService.findByCandidateVotesBetweenAndYearBetween( startVotes, endVotes, startYear, endYears).stream()
+                .map(presidentElect -> {
+                    ChartData chartData = new ChartData();
+                    chartData.setName(presidentElect.getCandidate() + "-" + presidentElect.getYear());
+                    chartData.setValue(presidentElect.getCandidateVotes().intValue());
+                    return chartData;
+                })
+                .limit(6)
+                .collect(Collectors.toList()));
     }
 
     private void clearStatistics() {
