@@ -58,7 +58,7 @@ public class PresidentElectController {
     @GetMapping("/findByYearEqualsAndStatePoEquals")
     @Transactional
     public @ResponseBody
-    ResponseEntity<?> findByYearEqualsAndStatePoEquals(
+    ResponseEntity<?> findByYearEqualsAndStatePoEqual(
                                         @RequestParam("year") BigInteger year, @RequestParam("statePo") String statePo,
                                                        @RequestParam(value = "times", defaultValue = "1", required = false) int times,
                                                        @RequestParam(value = "cacheInd", defaultValue = "false", required = false) boolean cacheInd){
